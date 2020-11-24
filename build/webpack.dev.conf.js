@@ -126,6 +126,21 @@ io.on('connection', socket => {
           console.log("触发了128块惩罚");
           socket.to(data.roomId).emit("score64")
       }
+  }),
+
+
+  //游戏结束后用户自动退房
+  socket.on("gameover", data => {
+
+    //清除用户个人信息
+    var index = roomInfo[data.roomId].indexOf(data.playerName);
+    if (index !== -1) {
+      roomInfo[data.roomId].splice(index, 1);
+    } 
+    //连接断开
+    console.log("连接已断开");
+    socket.leave(data.roomId)
+    console.log(roomInfo)
   })
 
 })

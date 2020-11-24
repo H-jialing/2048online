@@ -32,9 +32,9 @@
         <br>
         <button v-if="!this.showGame" @click="leaveRoom">退出房间</button>
     </div>
-    <Game v-if="this.showGame" :level="level" :changeScore="changeScore" 
+    <Game v-if="this.showGame" :level="level" :changeScore="changeScore" :mateScore="mateScore"
             @scoreChange="punishment" @initchangeScore="initchangeScore"
-            @newScore="sendScore">
+            @newScore="sendScore"   @gameover="gameOver"> 
         
     </Game>
     <div v-if="this.showGame">
@@ -139,7 +139,7 @@ export default {
             }
 
         }),
-
+        //房主接收房客离开房间的消息
         socket.on("memberleave", data => {
             if(this.power == 1){
                 alert("你的对手离开了游戏")
@@ -210,6 +210,7 @@ export default {
         startGame() {
             socket.emit("startGame",{"roomId": this.roomId})
         },
+        //改变游戏难度
         changeLevel(level) {
           this.level = level
         },
@@ -230,12 +231,18 @@ export default {
             this.changeScore = 0
         },
 
+        //发送给对方消息
         sendMsg() {
             socket.emit("send",
                 {"roomId": this.roomId, "msg": this.inputText},
                 (res) => {
                     this.inputText = ''
                 })
+        },
+
+        //游戏结束时，告诉服务器让用户离开
+        gameOver() {
+            socket.emit("gameover", {"roomId": this.roomId, "playerName": this.myName, "power": this.power})
         }
     }
     

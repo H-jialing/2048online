@@ -1,32 +1,21 @@
-# 2048Online
+# my2048
 
-# 基于Vue + socket.io + webpack + express
+> A Vue.js project
 
-## 11.22日更新
+## Build Setup
 
-## 目前后台完成的工作（基本已完成所有后台数据交互功能）：
+``` bash
+# install dependencies
+npm install
 
-### （默认玩家A为房主，玩家B为房客）
+# serve with hot reload at localhost:8080
+npm run dev
 
-### 1、完成了玩家A创建房间，玩家B加入玩家A的房间，玩家C无法继续加入A的房间（两人房满）的逻辑
+# build for production with minification
+npm run build
 
-### 2、完成了玩家A解散房间（将房内其他人先T出去），玩家B离开房间的逻辑
+# build for production and view the bundle analyzer report
+npm run build --report
+```
 
-### 3、完成了玩家A点击开始游戏后，玩家A和B同时载入游戏的逻辑
-
-### 4、完成了对战中玩家A、B相互通信(如聊天)的逻辑
-
-### 5、完成了对战中双方同步分数，消块情况，做好了交互事件的前置准备
-
-## 待完成的工作:
-
-
-### 2、游戏对战中动态表情的交互（主要是动画方面）
-
-### 3、优化计时功能，并且做好时间归0时游戏结束的页面逻辑
-
-### 4、解决若干bug和考虑边界问题，如游戏中途有人退出的逻辑解决
-
-...
-
-
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

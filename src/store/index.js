@@ -10,7 +10,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     nickName: localStorage.nickName,
-    roomId: localStorage.roomId
+    roomId: localStorage.roomId,
+    single: false
   },
 
   mutations: {

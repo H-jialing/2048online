@@ -33,7 +33,7 @@ import { numberInit, clearPoint, getRandom, getNum, canMoveLeft, canMoveRight, c
 export default {
   name: 'drawing',
   //changeScore是接收对面给自己的惩罚，scoreChange是记录自己要给对手的惩罚
-  props: ['level','changeScore'],
+  props: ['level','changeScore','mateScore'],
   data: () => {
     return {
       gridRef: null,
@@ -71,12 +71,32 @@ export default {
     time: {
       handler(time) {
         if(time <= 0) {
-          alert('Time is out!')
+          //alert('Time is out!')
           document.removeEventListener('keydown', this.keydown)
           clearInterval(this.timer)
-          // ------ 这里考虑如何对比两个人的分数
-          // 显示胜利／失败
-          // ======= 添加动画
+
+          if(this.$store.state.single == false){
+              //说明本局是联机游戏，向服务器发送请求，让用户离开房间
+              this.$emit("gameover")
+              // ------ 这里考虑如何对比两个人的分数
+              if(this.mateScore > this.score){
+                this.$router.push({ name:'Result', params:{ mateScore:this.mateScore, myScore:this.score } })
+                //alert("对手获胜了！")
+              }
+              else if(this.mateScore < this.score){
+                this.$router.push({ name:'Result', params:{ mateScore:this.mateScore, myScore:this.score } })
+                //alert("恭喜！你获胜了！")
+              }
+              else {
+                this.$router.push({ name:'Result', params:{ mateScore:this.mateScore, myScore:this.score } })
+                //alert("平局！")
+              }
+          }
+          
+          else {
+              //说明本局是单人游戏，显示个人分数即可
+              this.$router.push({ name:'singleResult', params:{ myScore:this.score } })
+          }
         }
       }
     },
@@ -105,13 +125,12 @@ export default {
       this.move(event)
     },
     init () {
-      // 所有归零
-      
+      // 所有归零  
       document.addEventListener("keydown", this.keydown)
       clearPoint(this.point, this.numberRef)
       numberInit(this.point, this.numberRef)
       // ----- 设置计时时间
-      this.time = 600000
+      this.time = 10
       this.score = 0
 
       var x1 = getRandom()
