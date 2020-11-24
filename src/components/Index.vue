@@ -14,9 +14,7 @@
         <br>
         <button @click="startGame">单人游戏</button>
     </div>
-    <Game v-if="this.showGame"> 
-        
-    </Game>
+    <Game v-if="this.showGame" />
 </div>
 </template>
 
