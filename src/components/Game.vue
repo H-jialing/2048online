@@ -45,7 +45,6 @@ export default {
       time: null,
       // 保存定时器
       timer: null
-
     }
   },
   created () {
@@ -329,10 +328,6 @@ export default {
 </script>
 
 <style>
-* {
-  padding: 0;
-  margin: 0;
-}
 header {
   display: flex;
   flex-direction: column;
