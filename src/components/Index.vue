@@ -44,9 +44,8 @@
 </template>
 
 <script>
-
+import { alert, closewin } from '../assets/utils'  
 import Game from './Game'
-
 export default {
     data() {
         return{
@@ -57,9 +56,9 @@ export default {
             showAbout: false
         }
     },
-
+    
     components: {
-        Game
+        Game,
     },
     
     methods: {

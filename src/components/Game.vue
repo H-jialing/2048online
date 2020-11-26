@@ -129,7 +129,7 @@ export default {
       clearPoint(this.point, this.numberRef)
       numberInit(this.point, this.numberRef)
       // ----- 设置计时时间
-      this.time = 10
+      this.time = 10000000
       this.score = 0
 
       var x1 = getRandom()

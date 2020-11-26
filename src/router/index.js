@@ -5,7 +5,10 @@ import Room from '../components/Room.vue'
 import Result from '../components/Result.vue'
 import singleResult from '../components/singleResult.vue'
 
+
 Vue.use(Router)
+
+
 
 export default new Router({
   mode: 'history',
@@ -33,3 +36,4 @@ export default new Router({
 
   ]
 })
+

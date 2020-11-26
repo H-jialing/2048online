@@ -20,7 +20,7 @@
         </div>
         <br>
         <!-- 这里棋盘显示的逻辑可以再优化一下 -->
-        <button v-if="this.power == 1 && this.mateName" @click="startGame">开始游戏</button>
+        <button @click="startGame">开始游戏</button>
         <br>
         <button v-if="this.power == 1 && !this.level" @click="changeLevel(1)">难度设置</button>
         <div v-if="this.level && !this.showGame">
@@ -32,48 +32,69 @@
         <br>
         <button v-if="!this.showGame" @click="leaveRoom">退出房间</button>
     </div>
-    <Game v-if="this.showGame" :level="level" :changeScore="changeScore" :mateScore="mateScore"
+    
+    <div v-if="this.showGame">
+        <div class="roomTop">
+            <div class="roomName">
+                <p class="roomPstyle">房间名称：{{roomId}}</p>
+            </div>
+            <div class="Opponent">
+                <div class="OpponentTop">
+                    <div class="avatarOpponent">
+                        <img src="../assets/img/boy.png" class="avatar">
+                    </div>
+                    <div class="messageOpponent">
+                        <div class="commentOpp">
+                            <input ref="inputBox" v-model="receiveText" autofocus class="inputOpp" readonly="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="nameOpponent"> 
+                    <p class="roomPstyle">对手昵称：{{mateName}}</p>
+                </div>
+                <div class="scoreOpponent">
+                    <p class="roomPstyle">对手得分：{{mateScore}}</p>
+                </div>
+            </div>
+        </div>
+        <Game v-if="this.showGame" :level="level" :changeScore="changeScore" :mateScore="mateScore"
             @scoreChange="punishment" @initchangeScore="initchangeScore"
             @newScore="sendScore"   @gameover="gameOver"> 
         
-    </Game>
-    <div v-if="this.showGame">
-        <div>
-            房间名称：{{roomId}}
-        </div>
-        <div> 
-            对手昵称：{{mateName}}
-        </div>
-        <div>
-            对手得分：{{mateScore}}
-        </div>
-        <div>
-            来自对手的消息：
-            <input ref="inputBox" v-model="receiveText" autofocus>
-        </div>
-
-        <div>
-            我的得分：{{myScore}}
-        </div>
-        <button> 大拇指 </button>
-        <button> 66666 </button>
-        <button> 扔鸡蛋 </button>
-        <div>
-            <input ref="inputBox"
-                v-model="inputText"
-                @keyup.enter="sendMsg"
-                placeholder="请输入聊天内容"
-                autofocus>
-            <button
-            :class="{'clickable': clickable}"
-            @click="sendMsg"
-            >发送</button>
+        </Game>
+        <div class="roomDown">
+            <div class="my">
+                <div class="avatarMy">
+                    <img src="../assets/img/girl.png" class="avatar">
+                </div>
+                <div class="messageMy">
+                    <div class="commentMy">
+                        <input ref="inputBox"
+                        v-model="inputText"
+                        @keyup.enter="sendMsg"
+                        placeholder="请输入聊天内容"
+                        autofocus
+                        class="inputMy">
+                        <button
+                        :class="{'clickable': clickable}"
+                        @click="sendMsg" class="buttonInput"
+                        >发送</button>
+                    </div>
+                </div>    
+            </div>
+            <div class="nameMy"> 
+                <p class="roomPstyle">我的昵称：{{myName}}</p>
+            </div>
+            <div class="scoreMy">
+                <p class="roomPstyle">我的得分：{{myScore}}</p>
+            </div>
         </div>
     </div>
 </div>
 </template>
 
 <script>
+import { alert, closewin } from '../assets/utils'
 import Game from '../components/Game'
 import io from 'socket.io-client'
 
@@ -248,3 +269,142 @@ export default {
     
 }
 </script>
+
+<style scoped>
+    /* 对方样式 */
+    .roomPstyle{
+        white-space: nowrap;
+        color: #766E66;
+    }
+    .roomTop{
+        width: 500px;
+        height: 150px;
+        margin: 0 auto;
+    }
+    .roomName{
+        height: 20%;
+        text-align: center;
+    }
+    .Opponent{
+        height: 80%;
+    }
+    .OpponentTop{
+        height:60%;
+    }
+    .avatarOpponent{
+        height: 100%;
+        width: 20%;
+        float: left;
+    }
+    .avatar{
+        height: 100%;
+    }
+    .messageOpponent{
+    width: 75%;
+    height: 100%;
+    float: right; 
+    }
+    .commentOpp {
+    position: relative;
+    width: 200px;
+    height: 50px;
+    background: #8C7B69;
+    border-radius: 5px;
+    margin-top: 16px;
+    } 
+    .commentOpp:before {
+    content: '';
+    position:absolute;
+    top: 16px;
+    left: -4px;
+    width: 16px;
+    height: 16px;
+    transform: rotate(45deg);
+    background-color: #8C7B69;
+    }
+    .inputOpp{
+        background:none;  
+        outline:none;  
+        border:none;
+        width: 100%;
+        margin-top: 5%;
+        margin-left: 8%;
+        height: 60%;
+        color:#F9F6F3;
+        font-size: 16px; 
+    }
+    .nameOpponent{
+        height: 20%;
+    }
+    .scoreOpponent{
+        height: 20%;
+    }
+
+    /* 己方样式 */
+    .roomDown{
+        width: 500px;
+        height: 150px;
+        margin: 0 auto;
+    }
+    .my{
+        margin-top: 5%;
+        height: 48%;
+    }
+    .avatarMy{
+        height: 100%;
+        float: right;
+    }
+    .messageMy{
+        height: 100%;
+        width: 80%;
+    }
+    .commentMy{
+        position: relative;
+        width: 50%;
+        height: 65%;
+        background: #8C7B69;
+        border-radius: 5px;
+        margin-top: 3%;
+        float: right;
+    }
+    .commentMy:before {
+    content: '';
+    position:absolute;
+    top: 16px;
+    right: -4px;
+    width: 16px;
+    height: 16px;
+    transform: rotate(45deg);
+    background-color: #8C7B69;
+    }
+    .inputMy{
+        background:none;
+        border:none;
+        outline:none;
+        color:#F9F6F3;
+        margin-top: 8%;
+        margin-left: 8%;
+        width: 60%;
+        font-size: 16px;
+    }
+    .inputMy::placeholder{
+        color: #F9F6F3;
+    }
+    .buttonInput{
+        padding: 0 3%;
+        height: 60%;
+        font-size: 14px;
+        background-color: #F9F6F3;
+        color: #8C7B69;
+        border-radius: 10px;
+        border-width: 0;
+        margin-left: 2%;
+    }
+    .nameMy{
+        margin-left: 80%;
+        float: right;
+    }
+    .scoreMy{
+        float: right;
+    }
+</style>
