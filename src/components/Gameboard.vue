@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div>
+    <!-- <div>
       <button class="new-game" @click="init()">重新游戏</button>
       <p>score:<span>{{score}}</span></p>
       <p>距离比赛结束还有：{{time}}</p>
-    </div>
+    </div> -->
     <div class="container grid-container" ref='gridRef'>
       <div class="container number-container" ref='numberRef'>
       </div>
@@ -30,6 +30,7 @@
 
 <script>
 import { numberInit, clearPoint, getRandom, getNum, canMoveLeft, canMoveRight, canMoveUp, canMoveDown, noBlockHorizontal, noBlockVertical, generateOneNum, showMoveAnimation } from '../assets/utils'
+
 export default {
   name: 'drawing',
   //changeScore是接收对面给自己的惩罚，scoreChange是记录自己要给对手的惩罚
@@ -69,6 +70,7 @@ export default {
     },
     time: {
       handler(time) {
+        this.$emit('limitTimeChange', time)
         if(time <= 0) {
           //alert('Time is out!')
           document.removeEventListener('keydown', this.keydown)
@@ -129,7 +131,7 @@ export default {
       clearPoint(this.point, this.numberRef)
       numberInit(this.point, this.numberRef)
       // ----- 设置计时时间
-      this.time = 10000000
+      this.time = 100000000
       this.score = 0
 
       var x1 = getRandom()
@@ -342,8 +344,8 @@ button {
   border-radius: 6px;
 }
 .container {
-  width: 460px;
-  height: 460px;
+  width: 300px;
+  height: 300px;
   padding: 20px;
   border-radius: 10px;
   display: flex;
@@ -364,6 +366,7 @@ button {
   position: relative;
 }
 .cell {
+  display:none;
   width: 100px;
   height: 100px;
   border-radius:10px;

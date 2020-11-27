@@ -1,13 +1,11 @@
 <template>
     <div class="wrapper">
-        <template v-if="!this.showGame">
-            <h1 class="title">2048</h1>
-            <div class="btn-wrap" :class="{'blur': dialog || showAbout}">
-                <button class="indexButton" @click="showDialog">联机游戏</button>
-                <button class="indexButton" @click="startGame">单人游戏</button>
-                <button class="indexButton" @click="() => showAbout = true">About</button>
-            </div>
-        </template>
+        <h1 class="title">2048</h1>
+        <div class="btn-wrap" :class="{'blur': dialog || showAbout}">
+            <button class="indexButton" @click="showDialog">联机游戏</button>
+            <button class="indexButton" @click="startGame">单人游戏</button>
+            <button class="indexButton" @click="() => showAbout = true">About</button>
+        </div>
 
         <transition name="slide-fade">
             <div class="pop-up" v-show="dialog" key="fade">
@@ -38,29 +36,21 @@
                 </div>
             </div>
         </transition>
-
-        <Game v-if="this.showGame" />
     </div>
 </template>
 
 <script>
 import { alert, closewin } from '../assets/utils'  
-import Game from './Game'
+
 export default {
     data() {
         return{
             nickName:'',
             roomId: '',
             dialog: false,
-            showGame: false,
             showAbout: false
         }
     },
-    
-    components: {
-        Game,
-    },
-    
     methods: {
         
         enterRoom() {
@@ -75,7 +65,7 @@ export default {
             this.$store.commit('setRoomid', this.roomId)
 
             this.$router.push({
-                path: "/room"
+                path: "/against-game"
             })
         },
 
@@ -85,8 +75,8 @@ export default {
         },
 
         startGame() {
-            this.showGame = true
             this.$store.state.single = true
+            this.$router.push('/single-game')
         },
 
         dialogClose () {
@@ -144,6 +134,7 @@ export default {
         border-radius: 10px;
         border-width: 0;
         margin: 20px 0;
+        cursor: pointer;
     }
     .indexButton:hover {
         background-color: #EBE0CB;

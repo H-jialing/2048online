@@ -57,11 +57,11 @@
                 </div>
             </div>
         </div>
-        <Game v-if="this.showGame" :level="level" :changeScore="changeScore" :mateScore="mateScore"
+        <Gameboard v-if="this.showGame" :level="level" :changeScore="changeScore" :mateScore="mateScore"
             @scoreChange="punishment" @initchangeScore="initchangeScore"
             @newScore="sendScore"   @gameover="gameOver"> 
         
-        </Game>
+        </Gameboard>
         <div class="roomDown">
             <div class="my">
                 <div class="avatarMy">
@@ -95,7 +95,7 @@
 
 <script>
 import { alert, closewin } from '../assets/utils'
-import Game from '../components/Game'
+import Gameboard from '../components/Gameboard'
 import io from 'socket.io-client'
 
 // 建立socket.io通信
@@ -120,7 +120,7 @@ export default {
         }
     },
     components: {
-        Game
+        Gameboard
     },
     beforeRouterEnter(to, from, next) {
         if (!localStorage.nickName || !localStorage.roomId) {
